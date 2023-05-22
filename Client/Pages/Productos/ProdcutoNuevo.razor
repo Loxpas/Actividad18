@@ -1,0 +1,47 @@
+﻿@page "/Productos/nuevo"
+@using Actividad18.Shared.Models
+@inject NavigationManager navegator
+@inject HttpClient http
+
+
+<h3>Nuevo Pedido</h3>
+
+<EditForm Model="producto" OnValidSubmit="añadir">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label for="txtNombre" class="form-label">Nombre</label>
+        <InputText id="txtNombre" class="form-control" @bind-Value="producto.nombre" />
+    </div>
+    <div class="mb-3">
+        <label for="txtDescripcion" class="form-label">Descripcion</label>
+        <InputText id="txtDescripcion" class="form-control" @bind-Value="producto.descripcion" />
+    </div>
+    <div class="mb-3">
+        <label for="numPrecio" class="form-label">Precio</label>
+        <InputNumber id="numPrecio" class="form-control" @bind-Value="producto.precio" />
+    </div>
+    <div class="mb-3">
+        <label for="txtCategoria" class="form-label">Categoria</label>
+        <InputText id="txtCategoria" class="form-control" @bind-Value="producto.categoria" />
+    </div>
+    <div class="mb-3">
+        <label for="numDisponibilidad" class="form-label">Disponibilidad</label>
+        <InputNumber id="numDisponibilidad" class="form-control" @bind-Value="producto.disponibilidad" />
+    </div>
+    <div class="mb-3">
+        <label for="numId" class="form-label">Id del pedido vinculado</label>
+        <InputNumber id="numId" class="form-control" @bind-Value="producto.PedidosId" />
+    </div>
+    <button type="submit" class="btn btn-primary">Añadir</button>
+</EditForm>
+
+
+@code {
+    private Productos producto = new Productos();
+    private async void añadir()
+    {
+        await http.PostAsJsonAsync("api/Productos", producto);
+        navegator.NavigateTo("/Producto");
+    }
+}

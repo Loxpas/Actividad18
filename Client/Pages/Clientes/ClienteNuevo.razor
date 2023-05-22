@@ -1,0 +1,39 @@
+﻿@page "/Clientes/nuevo"
+@using Actividad18.Shared.Models
+@inject NavigationManager navegator
+@inject HttpClient http
+
+
+<h3>Nuevo Cliente</h3>
+
+<EditForm Model="cliente" OnValidSubmit="añadir">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label for="txtNombre" class="form-label">Nombre</label>
+        <InputText id="txtNombre" class="form-control" @bind-Value="cliente.nombre" />
+    </div>
+    <div class="mb-3">
+        <label for="txtDireccion" class="form-label">Direccion</label>
+        <InputText id="txtDireccion" class="form-control" @bind-Value="cliente.direcion" />
+    </div>
+    <div class="mb-3">
+        <label for="txtFactura" class="form-label">Facturacion</label>
+        <InputText id="txtFactura" class="form-control" @bind-Value="cliente.facturacion" />
+    </div>
+    <div class="mb-3">
+        <label for="txtEmail" class="form-label">Email</label>
+        <InputText id="txtEmail" class="form-control" @bind-Value="cliente.correo" />
+    </div>
+    <button type="submit" class="btn btn-primary">Añadir</button>
+</EditForm>
+
+
+@code {
+    private Clientes cliente = new Clientes();
+    private async void añadir()
+    {
+        await http.PostAsJsonAsync("api/Clientes", cliente);
+        navegator.NavigateTo("/Cliente");
+    }
+}
